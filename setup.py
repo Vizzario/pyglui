@@ -20,9 +20,11 @@ fontstash_compile_args = ['-D FONTSTASH_IMPLEMENTATION','-D GLFONTSTASH_IMPLEMEN
 
 if platform.system() == 'Darwin':
     # find glew irrespective of version
-    for root, dirs, files in os.walk('/usr/local/Cellar/glew'):
-        if 'glew.h' in files:
-            glew_header = os.path.join(root,'glew.h')
+    for search_dir in ['/usr/local/Cellar/glew', '/opt/local/include']:
+        for root, dirs, files in os.walk(search_dir):
+            if 'glew.h' in files:
+                glew_header = os.path.join(root,'glew.h')
+                includes.append(search_dir)
     includes += ['/System/Library/Frameworks/OpenGL.framework/Versions/Current/Headers/', '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Headers/']
     link_args = []
     libs = ['GLEW']
